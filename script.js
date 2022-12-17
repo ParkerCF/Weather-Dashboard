@@ -38,3 +38,12 @@ function addToHistory(search) {
     displaySearchHistory();
 }
 
+function readSearchHistory() {
+    var localHisotry = localStorage.getItem('search-history');
+    if (localHisotry) {
+        searchHistory = JSON.parse(localHisotry);
+    }
+    displaySearchHistory();
+}
+
+
