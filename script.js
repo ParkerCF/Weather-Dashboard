@@ -46,4 +46,36 @@ function readSearchHistory() {
     displaySearchHistory();
 }
 
+function displayWeather(city, weather) {
+    var date = dayjs().format('M/D/YYYY');
+    var faren = weather.main.temp;
+    var windSpeed = weather.wind.speed;
+    var humidity = weather.main.humidity;
+    var weatherURL = `https://openweathermap.org/img/w/${weather.weather[0].icon}.png`;
+    var weatherDescrip = weather.weather[0].description || weather[0].main;
 
+    var card = document.createElement('div');
+    var body = document.createElement('div');
+    var heading = document.createElement('h2');
+    var icon = document.createElement('img');
+    var tempEl = document.createElement('p');
+    var windEl = document.createElement('p');
+    var humidityEl = document.createElement('p');
+
+    card.setAttribute('class', 'card');
+    body.setAttribute('class', 'card-body');
+    card.append(body);
+
+    heading.textContent = `${city} (${date})`;
+    icon.setAttribute('src', weatherURL);
+    icon.setAttribute('alt', weatherDescrip);
+    icon.setAttribute('class', 'weather-img');
+    heading.append(icon);
+    tempEl.textContent = `Temp: ${faren}°F`;
+    windEl.textContent = `Wind: ${windSpeed} MPH`;
+    humidityEl.textContent = `Humidty: ${humidity} %`;
+    body.append(heading, tempEl, windEl, humidityEl);
+
+    todayContainer.innerHTML = '';
+    todayContainer.append(card);
+}
