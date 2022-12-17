@@ -1,9 +1,7 @@
-// Global variables
 var searchHistory = [];
 var weatherApiRootUrl = 'https://api.openweathermap.org';
 var weatherApiKey = 'd91f911bcf2c0f925fb6535547a5ddc9';
 
-// DOM element references
 var searchForm = document.querySelector('#search-form');
 var searchInput = document.querySelector('#search-input');
 var todayContainer = document.querySelector('#today');
@@ -12,7 +10,6 @@ var searchHistoryContainer = document.querySelector('#history');
 
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
-
 
 function displaySearchHistory() {
     searchHistoryContainer.innerHTML = '';
@@ -118,4 +115,73 @@ function dispayForecast(forecast) {
     humidityEl.textContent = `Humidity: ${humidity} %`;
 
     forecastContainer.append(col);
+}
+
+function fiveDayForecast(dailyForecast) {
+    var dayOne = dayjs().add(1, 'day').startOf('day').unix();
+    var lastDay = dayjs().add(6, 'day').startOf('day').unix();
+    
+    var headingCol = document.createElement('div');
+    var heading = document.createElement('h4');
+
+    headingCol.setAttribute('class', 'col-12');
+    heading.textContent = '5-Day Forecast:';
+    headingCol.append(heading);
+
+    forecastContainer.innerHTML = '';
+    forecastContainer.append(headingCol);
+
+    for (var i = 0; i < dailyForecast.length; i++) {
+        if (dailyForecast[i].dt >= dayOne && dailyForecast[i].dt < lastDay) {
+            
+            if (dailyForecast[i].dt_txt.slice(11, 13) == "12") {
+                dispayForecast(dailyForecast[i]);
+            }
+        }
+    }
+}
+
+function displayData(city, data) {
+    displayWeather(city, data.list[0], data.city.timezone);
+    fiveDayForecast(data.list);
+}
+
+
+function getWeather(location) {
+    var { lat } = location;
+    var { lon } = location;
+    var city = location.name;
+
+    var apiUrl = `${weatherApiRootUrl}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`;
+
+    fetch(apiUrl)
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (data) {
+            displayData(city, data);
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+}
+
+function getCoords(search) {
+    var apiUrl = `${weatherApiRootUrl}/geo/1.0/direct?q=${search}&limit=5&appid=${weatherApiKey}`;
+
+    fetch(apiUrl)
+        .then(function (res) {
+            return res.json();
+        })
+        .then( function (data) {
+            if(!data[0]) {
+                alert('Location not found');
+            } else {
+                addToHistory(search);
+                getWeather(data[0]);
+            }
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
 }
