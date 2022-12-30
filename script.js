@@ -185,3 +185,25 @@ function getCoords(search) {
             console.error(err);
         })
 }
+
+function handleSearch(e) {
+    if (!searchInput.value) {
+        return;
+    }
+
+    e.preventDefault();
+    var search = searchInput.value.trim();
+    getCoords(search);
+    searchInput.value = '';
+}
+
+function handleSearchHistory(e) {
+    if (!e.target.matches('.btn-history')) {
+        return;
+    }
+
+    var btn = e.target;
+    var search = btn.getAttribute('data-search');
+    getCoords(search);
+}
+
