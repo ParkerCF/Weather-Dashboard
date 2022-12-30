@@ -79,7 +79,7 @@ function displayWeather(city, weather) {
 
 
 function dispayForecast(forecast) {
-    var weatherURL = `https://openweathermap.org/img/w/${forecase.weather[0].icon}.png`;
+    var weatherURL = `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
     var weatherDescrip = forecast.weather[0].description;
     var faren = forecast.main.temp;
     var humidity = forecast.main.humidity;
@@ -107,7 +107,7 @@ function dispayForecast(forecast) {
     windEl.setAttribute('class', 'card-text');
     humidityEl.setAttribute('class', 'card-text');
 
-    title.textContent = day.js(forecast.dt_txt).format('M/D/YYYY');
+    title.textContent = dayjs(forecast.dt_txt).format('M/D/YYYY');
     icon.setAttribute('src', weatherURL);
     icon.setAttribute('alt', weatherDescrip);
     tempEl.textContent = `Temp: ${faren} °F`;
