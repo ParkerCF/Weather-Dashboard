@@ -207,3 +207,6 @@ function handleSearchHistory(e) {
     getCoords(search);
 }
 
+readSearchHistory();
+searchForm.addEventListener('submit', handleSearch);
+searchHistoryContainer.addEventListener('click', handleSearchHistory);
