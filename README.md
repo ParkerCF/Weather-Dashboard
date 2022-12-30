@@ -9,12 +9,12 @@ The user is presented with a weather dashboard with form inputs. When the user s
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](./assets/Screenshot.png)
 
 
 ## Link
 
-Insert gif or link to demo
+https://parkercf.github.io/Weather-Dashboard/
 
 
 ## Features
